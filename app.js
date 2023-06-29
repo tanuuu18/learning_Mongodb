@@ -35,3 +35,19 @@ app.get("/books", (req, res) => {
 
    res.json({ msg: "welcome to the api" });
 });
+
+
+
+//add the books
+app.post("/books", (req, res) => {
+    const book = req.body;
+    db.collection("books")
+      .insertOne(book)
+      .then((result) => {
+        res.status(201).json(result);
+      })
+      .catch((err) => {
+        res.status(500).json({ err: "Could not create a new document" });
+      });
+  });
+  
