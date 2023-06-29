@@ -20,11 +20,16 @@ connectToDb((err) => {
 
 //routes
 app.get("/books", (req, res) => {
+    //to add pagination
+    const page = req.query.p || 0;
+  const booksPerPage = 2;
   let books = [];
   //db.books
   db.collection("books")
     .find()
     .sort({ author: 1 })
+    .skip(page * booksPerPage)//to add pagination
+    .limit(booksPerPage)//limit perpage
     .forEach((book) => books.push(book))
     .then(() => {
       res.status(200).json(books);
@@ -86,4 +91,3 @@ app.post("/books", (req, res) => {
     }
   });
 
-  
